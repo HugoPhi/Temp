@@ -1,7 +1,8 @@
 class Node:
-    def __init__(self, opt_attr_id, pre_val=None, accuracy=None, root=None):
+    def __init__(self, opt_attr_id, opt_attr_name, depth=0, accuracy=None, root=None):
         self.opt_attr_id = opt_attr_id
-        self.pre_val = pre_val
+        self.depth = depth
+        self.opt_attr_name = opt_attr_name
         self.child = dict()
 
         # used in pruning
@@ -9,21 +10,31 @@ class Node:
         self.root = root
 
     def __call__(self, data):
-        if len(self.child):
+        if len(self.child) == 0:
             print('error: no child')
 
-        for x in self.child.values():
-            if data[self.opt_attr_id] == x.pre_val:
-                return x(data)
+        return self.child[data[self.opt_attr_id]](data)
 
     def isRoot(self):
-        return self.pre_val is None
+        return self.root is None
+
+    def __repr__(self):
+        str = f'{self.depth*"  "}use attribute: {self.opt_attr_name}\n'
+        for cnt, (cdk, cdv) in enumerate(self.child.items()):
+            if cnt == len(self.child) - 1:
+                str += f'{(self.depth+1)*"  "}{self.opt_attr_name}{cdk}-> {cdv}'
+            else:
+                str += f'{(self.depth+1)*"  "}{self.opt_attr_name}{cdk}-> {cdv}\n'
+        return str
 
 
 class Leaf:
-    def __init__(self, label, pre_val=None):
+    def __init__(self, label, depth=0):
         self.label = label
-        self.pre_val = pre_val
+        self.depth = depth
 
     def __call__(self, data):
         return self.label
+
+    def __repr__(self):
+        return f'Class: {self.label}'

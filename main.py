@@ -46,7 +46,10 @@ tre = dt.ID3(data, labels, attr_dict)
 res = []
 for x in data:
     res.append(tre(x))
-print(res)
+print(np.array(res))
+print(labels)
+print('tree is: ')
+print(tre)
 
 
 # sklearn
