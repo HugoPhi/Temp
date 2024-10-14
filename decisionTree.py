@@ -76,6 +76,7 @@ def ID3(data, label, attr_dict, key2id=None, depth=0, valid=None, valid_label=No
                 root=tree.root,
                 pruning=pruning,
                 depth=depth + 1)
+
     if pruning == 'post' and tree.isRoot():  # TODO: post-pruning
         pass
 

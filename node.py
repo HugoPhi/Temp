@@ -19,12 +19,12 @@ class Node:
         return self.root is None
 
     def __repr__(self):
-        str = f'{self.depth * "  "}use attribute: {self.opt_attr_name}\n'
+        str = f'Used Attribute: {self.opt_attr_name}\n'
         for cnt, (cdk, cdv) in enumerate(self.child.items()):
             if cnt == len(self.child) - 1:
-                str += f'{(self.depth + 1) * "  "}{self.opt_attr_name}{cdk} -> {cdv}'
+                str += f'{self.depth * "│ "}└ {self.opt_attr_name}{cdk} -> {cdv}'
             else:
-                str += f'{(self.depth + 1) * "  "}{self.opt_attr_name}{cdk} -> {cdv}\n'
+                str += f'{(self.depth + 1) * "│ "}{self.opt_attr_name}{cdk} -> {cdv}\n'
         return str
 
 

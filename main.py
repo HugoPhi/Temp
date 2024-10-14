@@ -43,14 +43,14 @@ labels = labels[shuffle_ix]
 
 # mine
 print('mine')
-tre = dt.ID3(data, labels, attr_dict)
+tree = dt.ID3(data, labels, attr_dict)
 res = []
 for x in data:
-    res.append(tre(x))
+    res.append(tree(x))
 print(np.array(res))
 print(labels)
 print('tree is: ')
-print(tre)
+print(tree)
 
 
 # sklearn
