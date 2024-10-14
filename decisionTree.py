@@ -13,7 +13,7 @@ def OptAttr(data, label, attr_dict):
             label_temp = label[data[:, attr] == val]
             if len(label_temp) == 0:
                 continue
-            gain -= len(label_temp) / len(data) * Ent(label_temp)
+            gain -= len(label_temp) / len(label) * Ent(label_temp)
         return gain
 
     attr = np.argmax([Gain(label, i, attr_val) for i, attr_val in enumerate(attr_dict.values())])
@@ -47,9 +47,9 @@ def ID3(data, label, attr_dict, key2id=None, depth=0, valid=None, valid_label=No
     opt_attr_id = key2id[opt_attr_id]
 
     tree = node.Node(
-        opt_attr_id=opt_attr_id, 
-        opt_attr_name=opt_attr_name, 
-        accuracy=accuracy, 
+        opt_attr_id=opt_attr_id,
+        opt_attr_name=opt_attr_name,
+        accuracy=accuracy,
         root=root,
         depth=depth)
     if tree.isRoot():
@@ -67,14 +67,14 @@ def ID3(data, label, attr_dict, key2id=None, depth=0, valid=None, valid_label=No
             pass
         else:
             tree.child[attr_val] = ID3(
-                data=data_of_same_attrval.copy(), 
-                label=label_of_same_attrval.copy(), attr_dict=attr_dict_without_opt_attr.copy(), 
-                key2id=key2id, 
-                valid=valid, 
-                valid_label=valid_label, 
-                accuracy=accuracy, 
-                root=tree.root, 
-                pruning=pruning, 
+                data=data_of_same_attrval.copy(),
+                label=label_of_same_attrval.copy(), attr_dict=attr_dict_without_opt_attr.copy(),
+                key2id=key2id,
+                valid=valid,
+                valid_label=valid_label,
+                accuracy=accuracy,
+                root=tree.root,
+                pruning=pruning,
                 depth=depth + 1)
     if pruning == 'post' and tree.isRoot():  # TODO: post-pruning
         pass

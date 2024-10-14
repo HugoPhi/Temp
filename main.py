@@ -3,6 +3,7 @@ import numpy as np
 import decisionTree as dt
 
 
+# watermelon
 attr_dict = {
     '色泽': ['青绿', '乌黑', '浅白'],
     '根蒂': ['蜷缩', '稍蜷', '硬挺'],
@@ -60,3 +61,6 @@ print(tre)
 # for x in data:
 #     res.append(clf.predict([x]))
 # print(res)
+
+
+attr_dict = {}
