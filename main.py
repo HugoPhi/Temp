@@ -57,13 +57,3 @@ print(np.array(res))
 print(labels)
 print('tree is: ')
 print(tree)
-
-
-# sklearn
-# print('sklearn')
-# clf = tree.DecisionTreeClassifier()
-# clf = clf.fit(data, labels)
-# res = []
-# for x in data:
-#     res.append(clf.predict([x]))
-# print(res)

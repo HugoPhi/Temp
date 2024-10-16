@@ -1,13 +1,12 @@
 class Node:
-    def __init__(self, opt_attr_id, opt_attr_name, depth=0, accuracy=None, root=None):
+    def __init__(self, opt_attr_id, opt_attr_name, depth=0, father=None):
         self.opt_attr_id = opt_attr_id
         self.depth = depth
         self.opt_attr_name = opt_attr_name
         self.child = dict()
 
         # used in pruning
-        self.accuracy = accuracy
-        self.root = root
+        self.father = father
 
     def __call__(self, data):
         if len(self.child) == 0:
@@ -16,7 +15,7 @@ class Node:
         return self.child[data[self.opt_attr_id]](data)
 
     def isRoot(self):
-        return self.root is None
+        return self.father is None or self.father is self
 
     def __repr__(self):
         str = f'Used Attribute: {self.opt_attr_name}\n'
