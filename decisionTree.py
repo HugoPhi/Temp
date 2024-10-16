@@ -66,13 +66,20 @@ def ID3(data, label, attr_dict, key2id=None, depth=0, valid=None, valid_label=No
     if tree.isRoot():
         tree.root = tree
         if not pruning == 'none':
-            tree.accuracy = acc(valid, valid_label, tree.root)
-            
-    for attr_val in attr_vals:
-        tree.child[attr_val] = node.Leaf(np.bincount(label).argmax(), depth + 1)
+            tree.accuracy = np.mean(np.bincount(label).argmax() == label)
 
-    if pruning:  # TODO: pre-pruning
+    for attr_val in attr_vals:
+        label_of_same_attrval = label[data[:, opt_attr_id] == attr_val]
+
+        if (len(label_of_same_attrval) == 0):
+            tree.child[attr_val] = node.Leaf(np.bincount(label).argmax(), depth + 1)
+        else:
+            tree.child[attr_val] = node.Leaf(np.bincount(label_of_same_attrval).argmax(), depth + 1)
+
+    accuracy_after_division = 0
+    if pruning == 'pre':  # TODO: pre-pruning
         accuracy_after_division = acc(valid, valid_label, tree.root)
+        print(accuracy_after_division)
         if accuracy_after_division < tree.accuracy:
             return node.Leaf(np.bincount(label).argmax(), depth)
 
@@ -92,7 +99,7 @@ def ID3(data, label, attr_dict, key2id=None, depth=0, valid=None, valid_label=No
             key2id=key2id,
             valid=valid,
             valid_label=valid_label,
-            accuracy=accuracy,
+            accuracy=accuracy_after_division,
             root=tree.root,
             pruning=pruning,
             depth=depth + 1)
