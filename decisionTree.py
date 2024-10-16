@@ -26,6 +26,14 @@ def OptAttr(data, label, attr_dict, key2id):
     return attr, attr_val, aattr_dict
 
 
+def acc(data, label, tree):
+    res = []
+    for x in data:
+        res.append(tree(x))
+    res = np.array(res)
+    return np.mean(res == label)
+
+
 def ID3(data, label, attr_dict, key2id=None, depth=0, valid=None, valid_label=None, accuracy=None, root=None, pruning='none'):
     if root is None:
         key2id = {key: idx for idx, key in enumerate(attr_dict.keys())}
@@ -54,8 +62,19 @@ def ID3(data, label, attr_dict, key2id=None, depth=0, valid=None, valid_label=No
         accuracy=accuracy,
         root=root,
         depth=depth)
+
     if tree.isRoot():
         tree.root = tree
+        if not pruning == 'none':
+            tree.accuracy = acc(valid, valid_label, tree.root)
+            
+    for attr_val in attr_vals:
+        tree.child[attr_val] = node.Leaf(np.bincount(label).argmax(), depth + 1)
+
+    if pruning:  # TODO: pre-pruning
+        accuracy_after_division = acc(valid, valid_label, tree.root)
+        if accuracy_after_division < tree.accuracy:
+            return node.Leaf(np.bincount(label).argmax(), depth)
 
     for attr_val in attr_vals:
         data_of_same_attrval = data[data[:, opt_attr_id] == attr_val]
@@ -65,21 +84,18 @@ def ID3(data, label, attr_dict, key2id=None, depth=0, valid=None, valid_label=No
             tree.child[attr_val] = node.Leaf(np.bincount(label).argmax(), depth + 1)
             continue
 
-        if pruning == 'pre':  # TODO: pre-pruning
-            pass
-        else:
-            # print(f'selected: {opt_attr_name} = {np.where(data[:, opt_attr_id] == attr_val)[0] + 1}, len: {len(label_of_same_attrval)}')
-            tree.child[attr_val] = ID3(
-                data=data_of_same_attrval.copy(),
-                label=label_of_same_attrval.copy(),
-                attr_dict=attr_dict_without_opt_attr.copy(),
-                key2id=key2id,
-                valid=valid,
-                valid_label=valid_label,
-                accuracy=accuracy,
-                root=tree.root,
-                pruning=pruning,
-                depth=depth + 1)
+        # print(f'selected: {opt_attr_name} = {np.where(data[:, opt_attr_id] == attr_val)[0] + 1}, len: {len(label_of_same_attrval)}')
+        tree.child[attr_val] = ID3(
+            data=data_of_same_attrval.copy(),
+            label=label_of_same_attrval.copy(),
+            attr_dict=attr_dict_without_opt_attr.copy(),
+            key2id=key2id,
+            valid=valid,
+            valid_label=valid_label,
+            accuracy=accuracy,
+            root=tree.root,
+            pruning=pruning,
+            depth=depth + 1)
 
     if pruning == 'post' and tree.isRoot():  # TODO: post-pruning
         pass

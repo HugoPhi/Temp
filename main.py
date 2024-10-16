@@ -43,7 +43,7 @@ labels = np.array([1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0])
 
 # mine
 print('mine')
-tree = dt.ID3(data, labels, attr_dict)
+tree = dt.ID3(data, labels, attr_dict, valid=data, valid_label=labels, pruning='pre')
 res = []
 for x in data:
     res.append(tree(x))
@@ -61,6 +61,3 @@ print(tree)
 # for x in data:
 #     res.append(clf.predict([x]))
 # print(res)
-
-
-attr_dict = {}
