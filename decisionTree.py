@@ -66,7 +66,7 @@ def ID3(data, label, attr_dict, key2id=None, depth=0, valid=None, valid_label=No
     if tree.isRoot():
         tree.root = tree
         if not pruning == 'none':
-            tree.accuracy = np.mean(np.bincount(label).argmax() == label)
+            tree.accuracy = np.mean(np.bincount(valid_label).argmin() == valid_label)
 
     for attr_val in attr_vals:
         label_of_same_attrval = label[data[:, opt_attr_id] == attr_val]
@@ -79,8 +79,8 @@ def ID3(data, label, attr_dict, key2id=None, depth=0, valid=None, valid_label=No
     accuracy_after_division = 0
     if pruning == 'pre':  # TODO: pre-pruning
         accuracy_after_division = acc(valid, valid_label, tree.root)
-        print(accuracy_after_division)
-        if accuracy_after_division < tree.accuracy:
+        print(f'accuracy before: {tree.accuracy}, accuracy after: {accuracy_after_division}')
+        if not tree.accuracy < accuracy_after_division:
             return node.Leaf(np.bincount(label).argmax(), depth)
 
     for attr_val in attr_vals:
