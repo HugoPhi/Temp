@@ -2,10 +2,11 @@ import node
 import numpy as np
 
 
-def OptAttr(data, label, attr_dict):
+def OptAttr(data, label, attr_dict, key2id):
     def Ent(label):
         prob = np.bincount(label) / len(label)
-        return -np.sum(prob * np.log2(prob + 1e-10))
+        res = np.array([p * np.log2(p) if p != 0 else 0 for p in prob])
+        return -np.sum(res)
 
     def Gain(label, attr, attr_val):
         gain = Ent(label)
@@ -16,7 +17,8 @@ def OptAttr(data, label, attr_dict):
             gain -= len(label_temp) / len(label) * Ent(label_temp)
         return gain
 
-    attr = np.argmax([Gain(label, i, attr_val) for i, attr_val in enumerate(attr_dict.values())])
+    attr = np.argmax([Gain(label, key2id[key], attr_val) for key, attr_val in attr_dict.items()])
+    # print([f'{key}: {Gain(label, key2id[key], attr_val)}' for key, attr_val in attr_dict.items()])
     attr_val = list(attr_dict.values())[attr]
     aattr_dict = {k: v for j, (k, v) in enumerate(attr_dict.items()) if j != attr}  # remove the selected attribute
 
@@ -42,7 +44,7 @@ def ID3(data, label, attr_dict, key2id=None, depth=0, valid=None, valid_label=No
     if aflag is True:
         return node.Leaf(np.bincount(label).argmax(), depth)
 
-    opt_attr_id, attr_vals, attr_dict_without_opt_attr = OptAttr(data, label, attr_dict)
+    opt_attr_id, attr_vals, attr_dict_without_opt_attr = OptAttr(data, label, attr_dict, key2id)
     opt_attr_name = opt_attr_id
     opt_attr_id = key2id[opt_attr_id]
 
@@ -66,9 +68,11 @@ def ID3(data, label, attr_dict, key2id=None, depth=0, valid=None, valid_label=No
         if pruning == 'pre':  # TODO: pre-pruning
             pass
         else:
+            # print(f'selected: {opt_attr_name} = {np.where(data[:, opt_attr_id] == attr_val)[0] + 1}, len: {len(label_of_same_attrval)}')
             tree.child[attr_val] = ID3(
                 data=data_of_same_attrval.copy(),
-                label=label_of_same_attrval.copy(), attr_dict=attr_dict_without_opt_attr.copy(),
+                label=label_of_same_attrval.copy(),
+                attr_dict=attr_dict_without_opt_attr.copy(),
                 key2id=key2id,
                 valid=valid,
                 valid_label=valid_label,

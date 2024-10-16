@@ -28,7 +28,7 @@ data = np.array([
     ['浅白', '蜷缩', '浊响', '模糊', '平坦', '软粘'],
     ['青绿', '稍蜷', '浊响', '稍糊', '凹陷', '硬滑'],
     ['浅白', '稍蜷', '沉闷', '稍糊', '凹陷', '硬滑'],
-    ['乌黑', '稍蜷', '浊响', '稍糊', '稍凹', '软粘'],
+    ['乌黑', '稍蜷', '浊响', '清晰', '稍凹', '软粘'],
     ['浅白', '蜷缩', '浊响', '模糊', '平坦', '硬滑'],
     ['青绿', '蜷缩', '沉闷', '稍糊', '稍凹', '硬滑']
 ])
@@ -36,9 +36,9 @@ data = np.array([
 # Labels for "好瓜" (0 = 否, 1 = 是)
 labels = np.array([1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0])
 
-shuffle_ix = np.random.permutation(len(data))
-data = data[shuffle_ix]
-labels = labels[shuffle_ix]
+# shuffle_ix = np.random.permutation(len(data))
+# data = data[shuffle_ix]
+# labels = labels[shuffle_ix]
 
 
 # mine
