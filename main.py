@@ -36,6 +36,7 @@ data = np.array([
 # Labels for "好瓜" (0 = 否, 1 = 是)
 labels = np.array([1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0])
 
+# shuffle
 # shuffle_ix = np.random.permutation(len(data))
 # data = data[shuffle_ix]
 # labels = labels[shuffle_ix]
@@ -47,7 +48,7 @@ train_labels = np.array([labels[i] for i in train_ix])
 valid_data = np.array([data[i] for i in valid_ix])
 valid_labels = np.array([labels[i] for i in valid_ix])
 
-# mine v1.0
+# v1.0
 # print('mine')
 # tree = dt.ID3(train_data, train_labels, attr_dict, valid=valid_data, valid_label=valid_labels, pruning='post')
 # res = []
@@ -62,13 +63,15 @@ valid_labels = np.array([labels[i] for i in valid_ix])
 
 
 # v2.0
-print('mine')
-tree = dt.DecisionTree(train_data, train_labels, attr_dict, valid=valid_data, valid_label=valid_labels, pruning='post')
-tree.fit()
+for way in ['none', 'pre', 'post']:
+    print(f'mine: {way}')
+    tree = dt.DecisionTree(train_data, train_labels, attr_dict, valid=valid_data, valid_label=valid_labels, pruning=way)
+    tree.fit()
 
-res = tree(valid_data)
-print(valid_labels)
-print('mine acc: ', np.mean(res == valid_labels))
-print()
-print('tree is: ')
-print(tree.tree)
+    res = tree(valid_data)
+    print(res)
+    print(valid_labels)
+    print('mine acc: ', np.mean(res == valid_labels))
+    print('tree is: ')
+    print(tree.tree)
+    print()

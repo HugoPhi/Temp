@@ -19,7 +19,16 @@ class DecisionTree:
         self.tree = None
 
     def fit(self):
-        self.tree = self.build(self.data, self.label, self.attr_dict, self.key2id, self.depth, self.valid, self.valid_label)
+        self.tree = self.build(
+            data=self.data,
+            label=self.label,
+            attr_dict=self.attr_dict,
+            key2id=self.key2id,
+            depth=self.depth,
+            valid=self.valid,
+            valid_label=self.valid_label,
+            father=None,
+            pruning=self.pruning)
         return self.tree
 
     def __call__(self, data):
