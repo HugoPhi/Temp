@@ -48,3 +48,6 @@ class Leaf:
 
     def isLeaf(self):
         return True
+
+    def isRoot(self):
+        return self.father is None or self.father is self

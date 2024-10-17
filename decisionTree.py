@@ -49,13 +49,19 @@ def post_pruning(valid, valid_label, tree_node, root=None):  # TODO: post-prunin
             tree_node.child[key] = post_pruning(valid, valid_label, child, root)
             all_children_are_leaf = False
 
+    print(f'all child is leaf: {all_children_are_leaf}')
     if all_children_are_leaf:
+        print('pruning')
         pre_precision = acc(valid, valid_label, root)
         tree_copy = copy.deepcopy(tree_node)
 
+        print(root)
         tree_node = node.Leaf(np.bincount(valid_label).argmax(), tree_node.depth)
+        print(root)
         post_precision = acc(valid, valid_label, root)
-        if pre_precision >= post_precision:
+        print(f'pre-acc: {pre_precision}, post-acc: {post_precision}')
+        exit(0)
+        if pre_precision > post_precision:
             tree_node = tree_copy
         else:
             return tree_node
@@ -107,7 +113,7 @@ def ID3(data, label, attr_dict, key2id=None, depth=0, valid=None, valid_label=No
     after_precision = 0
     if pruning == 'pre':  # TODO: pre-pruning
         after_precision = acc(valid, valid_label, tree)
-        print(f'accuracy before: {pre_accuracy}, accuracy after: {after_precision}')
+        # print(f'accuracy before: {pre_accuracy}, accuracy after: {after_precision}')
         if not pre_accuracy < after_precision:
             return node.Leaf(np.bincount(label).argmax(), depth)
 
