@@ -17,6 +17,9 @@ class Node:
     def isRoot(self):
         return self.father is None or self.father is self
 
+    def isLeaf(self):
+        return False
+
     def __repr__(self):
         str = f'Used Attribute: {self.opt_attr_name}\n'
         for cnt, (cdk, cdv) in enumerate(self.child.items()):
@@ -42,3 +45,6 @@ class Leaf:
 
     def __repr__(self):
         return f'Class: {self.label}'
+
+    def isLeaf(self):
+        return True

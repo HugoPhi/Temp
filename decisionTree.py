@@ -1,4 +1,5 @@
 import node
+import copy
 import numpy as np
 
 
@@ -32,6 +33,34 @@ def acc(data, label, tree):
         res.append(tree(x))
     res = np.array(res)
     return np.mean(res == label)
+
+
+def post_pruning(valid, valid_label, tree_node, root=None):  # TODO: post-pruning
+    root = root
+    all_children_are_leaf = True
+
+    if tree_node.isRoot():
+        root = tree_node
+    else:
+        print('Please passin the root node')
+
+    for key, child in tree_node.child.items():
+        if not child.isLeaf():
+            tree_node.child[key] = post_pruning(valid, valid_label, child, root)
+            all_children_are_leaf = False
+
+    if all_children_are_leaf:
+        pre_precision = acc(valid, valid_label, root)
+        tree_copy = copy.deepcopy(tree_node)
+
+        tree_node = node.Leaf(np.bincount(valid_label).argmax(), tree_node.depth)
+        post_precision = acc(valid, valid_label, root)
+        if pre_precision >= post_precision:
+            tree_node = tree_copy
+        else:
+            return tree_node
+
+    return tree_node
 
 
 def ID3(data, label, attr_dict, key2id=None, depth=0, valid=None, valid_label=None, father=None, pruning='none'):
@@ -104,7 +133,7 @@ def ID3(data, label, attr_dict, key2id=None, depth=0, valid=None, valid_label=No
             pruning=pruning,
             depth=depth + 1)
 
-    if pruning == 'post':  # TODO: post-pruning
-        pass
+    if pruning == 'post' and tree.isRoot():  # TODO: post-pruning
+        tree = post_pruning(valid, valid_label, tree)
 
     return tree

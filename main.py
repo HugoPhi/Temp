@@ -49,11 +49,12 @@ valid_labels = np.array([labels[i] for i in valid_ix])
 
 # mine
 print('mine')
-tree = dt.ID3(train_data, train_labels, attr_dict, valid=valid_data, valid_label=valid_labels, pruning='pre')
+tree = dt.ID3(train_data, train_labels, attr_dict, valid=valid_data, valid_label=valid_labels, pruning='post')
 res = []
-for x in data:
+for x in valid_data:
     res.append(tree(x))
 print(np.array(res))
-print(labels)
+print(valid_labels)
+print('mine acc: ', np.mean(res == valid_labels))
 print('tree is: ')
 print(tree)
