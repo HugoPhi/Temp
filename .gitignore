@@ -22,3 +22,5 @@ rad.json
 TestResults.xml
 #__pycache__
 __pycache__/
+# all file names _*
+_*

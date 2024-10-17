@@ -1,7 +1,7 @@
 import numpy as np
 # from sklearn import tree
-import decisionTree as dt
-
+# import decisionTree as dt
+import BasicDecisionTree as dt
 
 # watermelon
 attr_dict = {
@@ -47,14 +47,28 @@ train_labels = np.array([labels[i] for i in train_ix])
 valid_data = np.array([data[i] for i in valid_ix])
 valid_labels = np.array([labels[i] for i in valid_ix])
 
-# mine
+# mine v1.0
+# print('mine')
+# tree = dt.ID3(train_data, train_labels, attr_dict, valid=valid_data, valid_label=valid_labels, pruning='post')
+# res = []
+# for x in valid_data:
+#     res.append(tree(x))
+# print(np.array(res))
+# print(valid_labels)
+# print('mine acc: ', np.mean(res == valid_labels))
+# print()
+# print('tree is: ')
+# print(tree)
+
+
+# v2.0
 print('mine')
-tree = dt.ID3(train_data, train_labels, attr_dict, valid=valid_data, valid_label=valid_labels, pruning='post')
-res = []
-for x in valid_data:
-    res.append(tree(x))
-print(np.array(res))
+tree = dt.DecisionTree(train_data, train_labels, attr_dict, valid=valid_data, valid_label=valid_labels, pruning='post')
+tree.fit()
+
+res = tree(valid_data)
 print(valid_labels)
 print('mine acc: ', np.mean(res == valid_labels))
+print()
 print('tree is: ')
-print(tree)
+print(tree.tree)

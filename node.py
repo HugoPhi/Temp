@@ -15,7 +15,7 @@ class Node:
         return self.child[data[self.opt_attr_id]](data)
 
     def isRoot(self):
-        return self.father is None or self.father is self
+        return self.depth == 0
 
     def isLeaf(self):
         return False
@@ -50,4 +50,4 @@ class Leaf:
         return True
 
     def isRoot(self):
-        return self.father is None or self.father is self
+        return self.depth == 0
