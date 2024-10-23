@@ -40,6 +40,53 @@
 
 ### 2. 自定义模型
 你可以修改或者完全实现你自己的机器学习模型，这只是一个不太完美的参考。你只需要在修改`src\`文件夹下面相应的算法的文件夹下面的实现，级可以实现你自己的算法。然后回到工程目录下重新编译就可以正常使用自定义的模型。在此之前，希望你了解一下本项目的构造以方便你作出更高效、正确的修改。
+本项目的工程结构主要构成就是两部分：src和test，build为构建自动生成的文件。src用于存放机器学习算法的源码包括：算法的实现，数据集的加载，辅助函数。而test则负责存放各种算法的基础测试以及自定义测试。两个文件夹内部都有以下的规范。
+
+#### 2.1. src
+这是一个用来存放源文件的文件夹，这里的整体的结构如下：
+```
+\src\   
+|   \hym\   
+|   |   __init__.py    
+|   |   DecisionTree\    
+|   |   |   __init__.py    
+|   |   |   DecisionTree.py    
+|   |   |   ...    
+|   |   LinearRegression\    
+|   |   ...    
+```
+我们从最外面开始讲。src里面只有一个文件夹就是hym，它是我们要制作的算法包的顶层模块。然后在下面的是以一类机器学习算法命名的文件夹，代表一类算法，通常这下面需要实现一个基类包含最基本的算法流程，然后再继承它实现其它派生类。如果你想新增一类机器学习算法，譬如支持向量机，那么你就可以在hym下面创建一个新的文件夹叫`SupportVectorMachine\`。同时，要注意的是你需要在hym下的__init__.py文件里面新添加导入信息：
+```python
+from . import DecisionTree
+from . import LinearRegression
+from . import SupportVectorMachine  # 加入你想实现的算法模块
+
+__all__ = [
+    'DecisionTree',
+    'LinearRegression',
+    'SupportVectorMachine'] # 在最后加入新导入的模块
+```
+
+#### 2.2. test
+#### 2.3. 其它重要文件
+1. setup.py
+2. README.md
+3. Makefile
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ## 许可
