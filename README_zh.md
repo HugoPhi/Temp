@@ -47,7 +47,7 @@ pload new -m 'MLLabs' -v
     cd MachineLearningLabs/
     ```
 
-    安装库：
+    编译库：
 
     ```bash
     pip install .
