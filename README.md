@@ -5,7 +5,7 @@
 [![GitHub license](https://img.shields.io/github/license/HugoPhi/MachineLearningLabs.svg)](https://github.com/HugoPhi/MachineLearningLabs/blob/main/LICENSE)
 [![GitHub issues](https://img.shields.io/github/issues/HugoPhi/MachineLearningLabs.svg)](https://github.com/HugoPhi/MachineLearningLabs/issues)
 
-[中文](README.md)
+[中文](README_zh.md)
 
 ---
 
