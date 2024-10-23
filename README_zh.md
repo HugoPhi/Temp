@@ -142,6 +142,47 @@ test/
 
     记录项目的使用方法和最新更新。建议定期查看，以获取最新信息。
 
+## 进度
+
+<details>
+<summary>算法库</summary>
+
+- [ ] **监督学习**
+  - [ ] 线性回归
+  - [x] 逻辑回归
+  - [x] 决策树
+    - [x] ID3
+    - [x] C4.5
+    - [ ] CART 
+  - [ ] 支持向量机
+  - [ ] 神经网络
+- [ ] **无监督学习**
+  - [ ] K 均值聚类
+  - [ ] 主成分分析
+     
+</details>
+
+<details>
+<summary>测试</summary>
+
+- [ ] **监督学习**
+  - [ ] 线性回归
+  - [x] 逻辑回归
+    - [x] iris 
+  - [x] 决策树
+    - [x] watermelon2.0
+    - [ ] iris
+    - [ ] ice-cream
+    - [ ] wine quality
+    - [ ] house price
+  - [ ] 支持向量机
+  - [ ] 神经网络
+- [ ] **无监督学习**
+  - [ ] K 均值聚类
+  - [ ] 主成分分析
+
+</details>
+
 ## 参考文献
 
 请在此处添加您的参考文献。
@@ -155,3 +196,5 @@ test/
 如果您觉得本项目对您有帮助，欢迎 [⭐️ Star](https://github.com/HugoPhi/MachineLearningLabs) 支持我们！
 
 [![GitHub stars](https://img.shields.io/github/stars/HugoPhi/MachineLearningLabs.svg?style=social&label=Star)](https://github.com/HugoPhi/MachineLearningLabs)
+
+---
