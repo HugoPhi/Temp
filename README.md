@@ -5,7 +5,7 @@
 [![GitHub license](https://img.shields.io/github/license/HugoPhi/MachineLearningLabs.svg)](https://github.com/HugoPhi/MachineLearningLabs/blob/main/LICENSE)
 [![GitHub issues](https://img.shields.io/github/issues/HugoPhi/MachineLearningLabs.svg)](https://github.com/HugoPhi/MachineLearningLabs/issues)
 
-[中文](README_zh.md)
+[中文](README.md)
 
 ---
 
@@ -13,13 +13,13 @@ This repository contains machine learning models implemented from scratch using 
 
 ## Features
 
-- Manually implemented machine learning algorithms packaged as Python modules for testing.
-- Provides comprehensive basic tests.
+- Manually implement machine learning algorithms and package them into Python modules for testing.
+- Provide comprehensive basic tests.
 - Easily create and run custom tests.
 
 ## Installation Dependencies
 
-Please use the `requirements.txt` file to configure the dependency environment. It is recommended to use [pload](https://github.com/HugoPhi/python_venv_loader) as a virtual environment management tool. This lightweight tool focuses on Python environment management. The specific operation is as follows:
+Please use the `requirements.txt` file to configure the dependency environment. It is recommended to use [pload](https://github.com/HugoPhi/python_venv_loader) as a virtual environment management tool. This is a lightweight Python virtual environment management tool that focuses on Python environment management. The specific operation is as follows:
 
 ```bash
 pload new -m 'MLLabs' -v 
@@ -41,13 +41,13 @@ First, create a specific virtual environment for the project and enter that envi
 
 2. **Install the local library:**
 
-    Navigate to the project directory:
+    Enter the project directory:
 
     ```bash
     cd MachineLearningLabs/
     ```
 
-    Install the library:
+    Build the library:
 
     ```bash
     pip install .
@@ -86,7 +86,7 @@ src/
 ```
 
 - **`hym/`**: Top-level module containing implementations of various machine learning algorithms.
-- To add a new algorithm category, such as Support Vector Machine, create a `SupportVectorMachine/` directory under `hym/` and add the following in `hym/__init__.py`:
+- If you want to add a new algorithm category, such as Support Vector Machine, create a `SupportVectorMachine/` directory under `hym/` and add the following in `hym/__init__.py`:
 
     ```python
     from . import DecisionTree
@@ -141,6 +141,47 @@ test/
 2. **README.md**
 
     Records the usage of the project and the latest updates. It is recommended to check regularly for the latest information.
+
+## Progress
+
+<details>
+<summary>Algorithm Library</summary>
+
+- [ ] **Supervised Learning**
+  - [ ] Linear Regression
+  - [x] Logistic Regression
+  - [x] Decision Tree
+    - [x] ID3
+    - [x] C4.5
+    - [ ] CART
+  - [ ] Support Vector Machine
+  - [ ] Neural Network
+- [ ] **Unsupervised Learning**
+  - [ ] K-Means Clustering
+  - [ ] Principal Component Analysis
+
+</details>
+
+<details>
+<summary>Tests</summary>
+
+- [ ] **Supervised Learning**
+  - [ ] Linear Regression
+  - [x] Logistic Regression
+    - [x] iris 
+  - [x] Decision Tree
+    - [x] watermelon2.0
+    - [ ] iris
+    - [ ] ice-cream
+    - [ ] wine quality
+    - [ ] house price
+  - [ ] Support Vector Machine
+  - [ ] Neural Network
+- [ ] **Unsupervised Learning**
+  - [ ] K-Means Clustering
+  - [ ] Principal Component Analysis
+
+</details>
 
 ## References
 
