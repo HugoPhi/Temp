@@ -24,3 +24,6 @@ TestResults.xml
 __pycache__/
 # all file names _*
 _*
+# all pictures
+*.png
+*.jpg

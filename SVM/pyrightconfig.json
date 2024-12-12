@@ -1,0 +1,7 @@
+{
+    "typeCheckingMode": "basic",  // 设置为 "basic" 以避免严格类型检查
+    "strict": ["flase"],              // 关闭严格模式
+    "extraPaths": ["src"],        // 添加 src 目录作为额外的模块路径
+    "exclude": ["tests"],         // 可选：排除测试目录等不需要检查的路径
+    "pythonVersion": "3.8"        // 可选：设置 Python 版本
+}
