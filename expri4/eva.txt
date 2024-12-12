@@ -1,0 +1,54 @@
+def cluster_acc(y_true, y_pred):
+    y_true = y_true - np.min(y_true)
+    l1 = list(set(y_true.tolist()))
+    num_class1 = len(l1)
+    y_pred = y_pred
+    l2 = list(set(y_pred.tolist()))
+    num_class2 = len(l2)
+    ind = 0
+    if num_class1 != num_class2:
+        for i in l1:
+            if i in l2:
+                pass
+            else:
+                y_pred[ind] = i
+                ind += 1
+    l2 = list(set(y_pred.tolist()))
+    numclass2 = len(l2)
+    if num_class1 != numclass2:
+        print('error')
+        return
+    cost = np.zeros((num_class1, numclass2))
+    for i, c1 in enumerate(l1):
+        mps = [i1 for i1, e1 in enumerate(y_true) if e1 == c1]
+        for j, c2 in enumerate(l2):
+            mps_d = [i1 for i1 in mps if y_pred[i1] == c2]
+            cost[i][j] = len(mps_d)
+    # 使用 SciPy 的 linear_sum_assignment 执行 Munkres 算法
+    cost_np = cost
+    row_ind, col_ind = linear_sum_assignment(-cost_np)
+    new_predict = np.zeros(len(y_pred))
+    mapping = {}  # 用于建立真实标签到预测标签的映射关系
+    for i, c in enumerate(l1):
+        c2 = l2[col_ind[i]]
+        ai = [ind for ind, elm in enumerate(y_pred) if elm == c2]
+        new_predict[ai] = c
+        mapping[c2] = c
+    acc = metrics.accuracy_score(y_true, new_predict)
+    matrix = confusion_matrix(y_true, new_predict)
+    max_cluster_values = np.max(matrix, axis=0)
+    purity = np.sum(max_cluster_values) / np.sum(matrix)
+    ka = kappa(y_true, new_predict)
+    nmi = nmi_score(y_true, new_predict)
+    ami = ami_score(y_true, new_predict)
+    ari = ari_score(y_true, new_predict)
+    fmi = fmi_score(y_true, new_predict)
+    return acc, new_predict, mapping, purity, ka, nmi, ari, ami, fmi
+
+
+def eva(y_true, y_pred):
+    acc, y, mapping, purity, kappa, nmi, ari, ami, fmi = cluster_acc(y_true, y_pred)
+    print(':acc {:.4f}'.format(acc), ', nmi {:.4f}'.format(nmi), ', ami 			{:.4f}'.format(ami),
+          ', ari {:.4f}'.format(ari),
+          ', fmi {:.4f}'.format(fmi), ', kappa {:.4f}'.format(kappa), ', purity 	{:.4f}'.format(purity))
+    return acc, mapping

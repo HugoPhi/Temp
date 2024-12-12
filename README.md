@@ -73,7 +73,7 @@ You can modify or implement your own machine learning models. The project struct
 
 The `src` directory is used to store source code, and its structure is as follows:
 
-```
+```cpp
 src/   
 ├── hym/   
 │   ├── __init__.py    

@@ -1,0 +1,14 @@
+K-means accuracy on training set after PCA to 4: 86.67%
+K-means accuracy on testing  set after PCA to 4: 93.33%
+SVC     accuracy on training set after PCA to 4: 98.10%
+SVC     accuracy on testing  set after PCA to 4: 100.00%
+
+K-means accuracy on training set after PCA to 3: 86.67%
+K-means accuracy on testing  set after PCA to 3: 93.33%
+SVC     accuracy on training set after PCA to 3: 97.14%
+SVC     accuracy on testing  set after PCA to 3: 100.00%
+
+K-means accuracy on training set after PCA to 2: 86.67%
+K-means accuracy on testing  set after PCA to 2: 93.33%
+SVC     accuracy on training set after PCA to 2: 95.24%
+SVC     accuracy on testing  set after PCA to 2: 97.78%
