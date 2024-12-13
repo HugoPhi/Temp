@@ -1,10 +1,10 @@
 # Makefile to compile LaTeX to PDF and clean up auxiliary files
 
 # Name of the LaTeX source file (without extension)
-LATEX_FILE = table.tex
+LATEX_FILE = figure.tex
 
 # Output PDF file name
-PDF_FILE = table.pdf
+PDF_FILE = figure.pdf
 
 # Default target to generate the PDF
 all: $(PDF_FILE)
