@@ -140,7 +140,8 @@ target = mnist.target.astype(int)
 
 useLib = (True, True)
 
-for pca2 in [784 // x**2 for x in range(8)]:
+# for pca2 in [784 // 2**x for x in range(9)]:
+for pca2 in [5, 4, 2]:
     if useLib[0]:
         libpca = PCA(n_components=pca2)
         reduced_data = libpca.fit_transform(data)
@@ -180,3 +181,4 @@ for pca2 in [784 // x**2 for x in range(8)]:
 
     print(f"SVC     accuracy on training set after PCA to {pca2}: {svc_train_accuracy * 100:.2f}%")
     print(f"SVC     accuracy on testing  set after PCA to {pca2}: {svc_test_accuracy * 100:.2f}%")
+    print()
