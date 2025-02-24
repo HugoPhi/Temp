@@ -4,21 +4,22 @@ import numpy as np
 
 
 class KNNClf(Clfs):
-    def __init__(self, k=1, p='euclid'):
+    def __init__(self, k=1, d='euclid', batch_size=128):
         super(KNNClf, self).__init__()
         self.k = k
-        self.p = p
+        self.d = d
+        self.batch_size = batch_size
 
-        if p == 'euclid':
+        if d == 'euclid':
             self.distance = self.__euclid_distance
-        elif p == 'manhattan':
+        elif d == 'manhattan':
             self.distance = self.__manhattan_distance
-        elif p == 'cosine':
+        elif d == 'cosine':
             self.distance = self.__cosine_distances
-        elif p == 'chebyshev':
+        elif d == 'chebyshev':
             self.distance = self.__chebyshev_distances
         else:
-            print('p should be euclid, manhattan, cosine or chebyshev !')
+            print('d should be euclid, manhattan, cosine or chebyshev !')
             print('use default p: euclid')
             self.distance = self.__manhattan_distance
 
@@ -36,7 +37,9 @@ class KNNClf(Clfs):
         distance : np.ndarray
             两个数据集之间的距离，形状为(Ny, Nx)
         '''
-        dists = np.sqrt(-2 * np.dot(y, x.T) + np.sum(x**2, axis=1) + np.sum(y**2, axis=1)[:, np.newaxis])
+        dists = np.sqrt(
+            np.sum(y**2, axis=1)[:, np.newaxis] + np.sum(x**2, axis=1) - 2 * np.dot(y, x.T)
+        )
         return dists
 
     def __manhattan_distance(self, x, y):
@@ -57,7 +60,7 @@ class KNNClf(Clfs):
         dists = np.sum(np.abs(y[:, np.newaxis] - x), axis=2)
         return dists
 
-    def __chebyshev_distances(X_train, X_test):
+    def __chebyshev_distances(self, x, y):
         '''
         计算两个数据集的切比雪夫距离，就是两两向量之间的切比雪夫距离。
 
@@ -72,10 +75,10 @@ class KNNClf(Clfs):
             两个数据集之间的距离，形状为(Ny, Nx)
         '''
 
-        dists = np.max(np.abs(X_test[:, np.newaxis] - X_train), axis=2)
+        dists = np.max(np.abs(y[:, np.newaxis] - x), axis=2)
         return dists
 
-    def __cosine_distances(X_train, X_test):
+    def __cosine_distances(self, x, y):
         '''
         计算两个数据集的余弦距离，就是两两向量之间的余弦距离。
 
@@ -91,11 +94,11 @@ class KNNClf(Clfs):
         '''
 
         # 归一化向量以简化余弦距离的计算
-        X_train_normalized = X_train / np.linalg.norm(X_train, axis=1, keepdims=True)
-        X_test_normalized = X_test / np.linalg.norm(X_test, axis=1, keepdims=True)
+        x_normalized = x / np.linalg.norm(x, axis=1, keepdims=True)
+        y_normalized = y / np.linalg.norm(y, axis=1, keepdims=True)
 
         # 计算余弦相似度矩阵，然后转换为余弦距离
-        similarity = np.dot(X_test_normalized, X_train_normalized.T)
+        similarity = np.dot(y_normalized, x_normalized.T)
         dists = 1 - similarity
         return dists
 
@@ -106,7 +109,7 @@ class KNNClf(Clfs):
         self.y = y_train.reshape(-1)
         classes, self.static = np.unique(self.y, return_counts=True)  # 统计每种类别
 
-        if (classes != np.arange(classes.shape[0])).any():
+        if classes[0] != 0:
             raise ValueError('Make sure y is start form 0 !')  # 确保类别是形如：0, 1, 2 ...
 
         self.static = self.static / self.static.sum()  # 每种类别可能的概率，用于抵抗数据不均衡
@@ -124,18 +127,19 @@ class KNNClf(Clfs):
 
         proba = np.zeros((x_test.shape[0], self.static.shape[0]))  # 每种类别的可能性，（N_test, C）
 
-        n_k_neighbors = np.argsort(self.distance(self.x, x_test), axis=1)[:, :self.k]  # K个邻居
+        for i in range(0, x_test.shape[0], self.batch_size):
+            n_k_neighbors = np.argsort(self.distance(self.x, x_test[i:i + self.batch_size]), axis=1)[:, :self.k]  # K个邻居
 
-        proba[np.arange(x_test.shape[0])[:, None], self.y[n_k_neighbors]] += 1  # 统计可能性
+            proba[i + np.arange(x_test[i:i + self.batch_size].shape[0])[:, None], self.y[n_k_neighbors]] += 1  # 统计可能性
 
-        proba = proba / np.sum(proba, axis=1, keepdims=True)  # 计算概率
+            proba[i:i + self.batch_size] = proba[i:i + self.batch_size] / np.sum(proba[i:i + self.batch_size], axis=1, keepdims=True)  # 计算概率
 
         self.testing_time = time.time() - start
 
         return proba
 
     def get_params(self):
-        return {}, {'k': self.k, 'p': self.p}
+        return {'batch_size': self.batch_size}, {'k': self.k, 'd': self.d}
 
     def get_testing_time(self):
         return self.testing_time

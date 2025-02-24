@@ -24,7 +24,6 @@ class Clfs(ABC):
         初始化。
         '''
 
-        self.model = None
         self.training_time = -1
         self.testing_time = -1
 

@@ -1,0 +1,132 @@
+[knn_1.hyper]
+batch_size = 1000
+
+[knn_1.model]
+k = 1
+d = "cosine"
+
+[knn_2.hyper]
+batch_size = 1000
+
+[knn_2.model]
+k = 2
+d = "cosine"
+
+[knn_3.hyper]
+batch_size = 1000
+
+[knn_3.model]
+k = 3
+d = "cosine"
+
+[knn_4.hyper]
+batch_size = 1000
+
+[knn_4.model]
+k = 4
+d = "cosine"
+
+[knn_5.hyper]
+batch_size = 1000
+
+[knn_5.model]
+k = 5
+d = "cosine"
+
+[knn_6.hyper]
+batch_size = 1000
+
+[knn_6.model]
+k = 6
+d = "cosine"
+
+[knn_7.hyper]
+batch_size = 1000
+
+[knn_7.model]
+k = 7
+d = "cosine"
+
+[knn_8.hyper]
+batch_size = 1000
+
+[knn_8.model]
+k = 8
+d = "cosine"
+
+[knn_9.hyper]
+batch_size = 1000
+
+[knn_9.model]
+k = 9
+d = "cosine"
+
+[knn_10.hyper]
+batch_size = 1000
+
+[knn_10.model]
+k = 10
+d = "cosine"
+
+[knn_11.hyper]
+batch_size = 1000
+
+[knn_11.model]
+k = 11
+d = "cosine"
+
+[knn_12.hyper]
+batch_size = 1000
+
+[knn_12.model]
+k = 12
+d = "cosine"
+
+[knn_13.hyper]
+batch_size = 1000
+
+[knn_13.model]
+k = 13
+d = "cosine"
+
+[knn_14.hyper]
+batch_size = 1000
+
+[knn_14.model]
+k = 14
+d = "cosine"
+
+[knn_15.hyper]
+batch_size = 1000
+
+[knn_15.model]
+k = 15
+d = "cosine"
+
+[knn_16.hyper]
+batch_size = 1000
+
+[knn_16.model]
+k = 16
+d = "cosine"
+
+[knn_17.hyper]
+batch_size = 1000
+
+[knn_17.model]
+k = 17
+d = "cosine"
+
+[knn_18.hyper]
+batch_size = 1000
+
+[knn_18.model]
+k = 18
+d = "cosine"
+
+[knn_19.hyper]
+batch_size = 1000
+
+[knn_19.model]
+k = 19
+d = "cosine"
