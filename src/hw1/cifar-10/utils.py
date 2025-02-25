@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 
 
-def display_images(images, labels, rows=1, cols=1):
+def display_images(images, labels, rows=1, cols=1):  # by OpenAI ChatGPT-4o
     """
     显示来自numpy数组的图像，并在每张图片下方显示对应的标签。
 
@@ -19,7 +19,6 @@ def display_images(images, labels, rows=1, cols=1):
                 if rows == 1 and cols == 1:
                     axarr.imshow(images[count])
                     axarr.set_xlabel(f'{labels[count]}')
-                    # axarr.axis('off')
                 elif rows == 1 or cols == 1:  # 单行列情况
                     if rows == 1:
                         ax_to_use = axarr[col]
@@ -27,14 +26,11 @@ def display_images(images, labels, rows=1, cols=1):
                         ax_to_use = axarr[row]
                     ax_to_use.imshow(images[count])
                     ax_to_use.set_xlabel(f'{labels[count]}')
-                    # ax_to_use.axis('off')
                 else:
                     axarr[row, col].imshow(images[count])
                     axarr[row, col].set_xlabel(f'{labels[count]}')
-                    # axarr[row, col].axis('off')
                 count += 1
             else:
-                # 如果没有更多图像要显示，则隐藏多余的子图
                 if rows > 1 and cols > 1:
                     axarr[row, col].axis('off')
                 elif rows == 1 or cols == 1:

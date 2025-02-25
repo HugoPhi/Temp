@@ -1,3 +1,4 @@
+from sklearn.neighbors import KNeighborsClassifier
 import torch
 import time
 import numpy as np
@@ -210,13 +211,10 @@ class _knn_clf_torch(Clfs):
     def __init__(self,
                  k=1,
                  d='euclid',
+                 cpu=False,  # 强制使用CPU进行计算
                  batch_size=(128, 2048)):
 
         super(_knn_clf_torch, self).__init__()
-
-        # 检查是否有可用的GPU，并设置设备
-        self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-        print(f'[*] use {self.device.type} version.')
 
         self.k = k
         if k < 1:
@@ -225,7 +223,10 @@ class _knn_clf_torch(Clfs):
         self.batch_size = batch_size
 
         # 检查是否有可用的GPU，并设置设备
-        self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        if cpu:
+            self.device = torch.device('cpu')
+        else:
+            self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
         print(f'[*] use torch version({self.device.type}).')
 
@@ -275,11 +276,7 @@ class _knn_clf_torch(Clfs):
     def fit(self, X_train, y_train):
         start = time.time()
         self.x = self.__to_tensor(X_train)
-<<<<<<< Updated upstream
         self.y = torch.tensor(y_train.reshape(-1), dtype=torch.long).to(self.device)
-=======
-        self.y = torch.tensor(y_train.reshape(-1), dtype=torch.long).to(self.device) 
->>>>>>> Stashed changes
         classes, self.static = torch.unique(self.y, return_counts=True)
 
         if classes[0] != 0:
@@ -363,7 +360,7 @@ class KNNClf(Clfs):
     batch_size : tuple
         计算距离的批次大小。其中，batch_size[0]是测试集的批次大小，batch_size[1]是训练集的批次大小。
     backend : str
-        使用的后端，有两个可选值：'numpy'和'torch'。
+        使用的后端，有三个可选值：'numpy', 'torch', 'torch_cpu'。
     '''
 
     def __init__(self,
@@ -378,6 +375,8 @@ class KNNClf(Clfs):
             self.knn = _knn_clf_numpy(k=k, d=d, batch_size=batch_size)
         elif backend.lower() == 'torch':
             self.knn = _knn_clf_torch(k=k, d=d, batch_size=batch_size)
+        elif backend.lower() == 'torch_cpu':
+            self.knn = _knn_clf_torch(k=k, d=d, batch_size=batch_size, cpu=True)
         else:
             raise ValueError("[x] Backend should be either 'numpy' or 'torch'")
 
@@ -401,3 +400,43 @@ class KNNClf(Clfs):
 
     def get_pre_proba(self):
         return self.knn.get_pre_proba()
+
+
+class SklearnKNNClf(Clfs):  # by Qwen.
+    def __init__(self, n_neighbors=5, weights='uniform', algorithm='auto', metric='manhattan'):
+        super(SklearnKNNClf, self).__init__()
+        # 初始化KNN分类器，将传入的参数传递给它，并设置距离度量为曼哈顿距离
+        self.knn = KNeighborsClassifier(n_neighbors=n_neighbors, weights=weights, algorithm=algorithm, metric=metric)
+        self.train_time = None
+        self.test_time = None
+
+        print('[*] use sklearn stdlib version.')
+
+    def fit(self, X_train, y_train):
+        # 记录训练开始时间
+        start_time = time.time()
+        # 使用KNN分类器进行训练
+        self.knn.fit(X_train, y_train)
+        # 记录训练结束时间
+        self.train_time = time.time() - start_time
+
+    def predict(self, X_test):
+        # 记录预测开始时间
+        start_time = time.time()
+        # 进行预测
+        predictions = self.knn.predict(X_test)
+        # 记录预测结束时间
+        self.test_time = time.time() - start_time
+        return predictions
+
+    def predict_proba(self, X_test):
+        # 返回每个测试样本属于各个类别的概率
+        return self.knn.predict_proba(X_test)
+
+    def get_training_time(self):
+        # 返回训练所花费的时间
+        return self.train_time
+
+    def get_testing_time(self):
+        # 返回测试（预测）所花费的时间
+        return self.test_time

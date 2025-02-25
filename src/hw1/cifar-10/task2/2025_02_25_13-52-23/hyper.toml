@@ -1,0 +1,47 @@
+[knn_5_12_numpy]
+k = 5
+d = "manhattan"
+batch_size = [ 512, 2048,]
+backend = "numpy"
+
+[knn_5_x2_numpy]
+k = 5
+d = "manhattan"
+batch_size = [ 1, 50000,]
+backend = "numpy"
+
+[knn_5_1x_numpy]
+k = 5
+d = "manhattan"
+batch_size = [ 10000, 1,]
+backend = "numpy"
+
+[knn_5_xx_numpy]
+k = 5
+d = "manhattan"
+batch_size = [ 1, 1,]
+backend = "numpy"
+
+[knn_5_12_torch]
+k = 5
+d = "manhattan"
+batch_size = [ 512, 2048,]
+backend = "torch"
+
+[knn_5_x2_torch]
+k = 5
+d = "manhattan"
+batch_size = [ 1, 50000,]
+backend = "torch"
+
+[knn_5_1x_torch]
+k = 5
+d = "manhattan"
+batch_size = [ 10000, 1,]
+backend = "torch"
+
+[knn_5_xx_torch]
+k = 5
+d = "manhattan"
+batch_size = [ 1, 1,]
+backend = "torch"
