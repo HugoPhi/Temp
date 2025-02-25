@@ -214,6 +214,10 @@ class _knn_clf_torch(Clfs):
 
         super(_knn_clf_torch, self).__init__()
 
+        # 检查是否有可用的GPU，并设置设备
+        self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        print(f'[*] use {self.device.type} version.')
+
         self.k = k
         if k < 1:
             raise ValueError(f'[x] k should be a number >=1, but get {self.k}')
@@ -271,7 +275,11 @@ class _knn_clf_torch(Clfs):
     def fit(self, X_train, y_train):
         start = time.time()
         self.x = self.__to_tensor(X_train)
+<<<<<<< Updated upstream
         self.y = torch.tensor(y_train.reshape(-1), dtype=torch.long).to(self.device)
+=======
+        self.y = torch.tensor(y_train.reshape(-1), dtype=torch.long).to(self.device) 
+>>>>>>> Stashed changes
         classes, self.static = torch.unique(self.y, return_counts=True)
 
         if classes[0] != 0:
