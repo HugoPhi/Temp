@@ -202,6 +202,9 @@ class _knn_clf_numpy(Clfs):
     def get_training_time(self):
         return self.training_time
 
+    def get_pre_proba(self):
+        return self.static
+
 
 class _knn_clf_torch(Clfs):
     def __init__(self,
@@ -217,7 +220,10 @@ class _knn_clf_torch(Clfs):
         self.d = d
         self.batch_size = batch_size
 
-        print('[*] use torch version.')
+        # 检查是否有可用的GPU，并设置设备
+        self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
+        print(f'[*] use torch version({self.device.type}).')
 
         self.k = k
         # 根据距离度量选择相应的函数
@@ -235,7 +241,7 @@ class _knn_clf_torch(Clfs):
             self.distance = self.__euclid_distance
 
     def __to_tensor(self, x):
-        return torch.tensor(x, dtype=torch.float32)
+        return torch.tensor(x, dtype=torch.float32).to(self.device)
 
     def __euclid_distance(self, x, y):
         # x, y = self.__to_tensor(x), self.__to_tensor(y)
@@ -265,7 +271,7 @@ class _knn_clf_torch(Clfs):
     def fit(self, X_train, y_train):
         start = time.time()
         self.x = self.__to_tensor(X_train)
-        self.y = torch.tensor(y_train.reshape(-1), dtype=torch.long)
+        self.y = torch.tensor(y_train.reshape(-1), dtype=torch.long).to(self.device)
         classes, self.static = torch.unique(self.y, return_counts=True)
 
         if classes[0] != 0:
@@ -285,7 +291,7 @@ class _knn_clf_torch(Clfs):
             batch_size, k = n_k_neighbors.size()
             num_classes = self.static.size(0)
 
-            class_counts = torch.zeros((batch_size, num_classes))
+            class_counts = torch.zeros((batch_size, num_classes), device=self.device)
 
             for i in range(batch_size):
                 for j in range(k):
@@ -298,12 +304,12 @@ class _knn_clf_torch(Clfs):
             return proba_batch  # 这里不用转成numpy因为后面还要加入到大的proba里面
 
         start = time.time()
-        proba = torch.zeros((x_test.shape[0], self.static.size(0)))
+        proba = torch.zeros((x_test.shape[0], self.static.size(0)), device=self.device)
 
         self.n_k_neighbors = []
         for i in range(0, x_test.shape[0], self.batch_size[0]):
             batch_x_test = self.__to_tensor(x_test[i:i + self.batch_size[0]])
-            distance = torch.zeros((batch_x_test.size(0), self.x.size(0)))
+            distance = torch.zeros((batch_x_test.size(0), self.x.size(0)), device=self.device)
 
             for j in range(0, self.x.size(0), self.batch_size[1]):
                 batch_x_train = self.x[j:j + self.batch_size[1]]
@@ -311,7 +317,7 @@ class _knn_clf_torch(Clfs):
                 distance[:, j:j + dist_batch.size(1)] = dist_batch
 
             n_k_neighbors = torch.argsort(distance, dim=1)[:, :self.k]
-            self.n_k_neighbors.append(n_k_neighbors.numpy())
+            self.n_k_neighbors.append(n_k_neighbors.cpu().numpy())
             proba[i:i + batch_x_test.size(0), :] = __calculate_proba(batch_x_test, n_k_neighbors)
 
         self.testing_time = time.time() - start
@@ -327,6 +333,9 @@ class _knn_clf_torch(Clfs):
 
     def get_training_time(self):
         return self.training_time
+
+    def get_pre_proba(self):
+        return self.static.cpu().numpy()
 
 
 class KNNClf(Clfs):
@@ -383,4 +392,4 @@ class KNNClf(Clfs):
         return self.knn.get_training_time()
 
     def get_pre_proba(self):
-        return self.knn.static.cpu().numpy()
+        return self.knn.get_pre_proba()
