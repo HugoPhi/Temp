@@ -1,0 +1,113 @@
+[knn_5_sklearn]
+n_neighbors = 5
+weights = "uniform"
+algorithm = "brute"
+metric = "manhattan"
+
+[knn_5_bb_numpy]
+k = 5
+d = "manhattan"
+batch_size = [ 256, 1024,]
+backend = "numpy"
+
+[knn_5_fb_numpy]
+k = 5
+d = "manhattan"
+batch_size = [ 1000, 64,]
+backend = "numpy"
+
+[knn_5_bf_numpy]
+k = 5
+d = "manhattan"
+batch_size = [ 16, 5000,]
+backend = "numpy"
+
+[knn_5_pf_numpy]
+k = 5
+d = "manhattan"
+batch_size = [ 1000, 1,]
+backend = "numpy"
+
+[knn_5_fp_numpy]
+k = 5
+d = "manhattan"
+batch_size = [ 1, 5000,]
+backend = "numpy"
+
+[knn_5_ff_numpy]
+k = 5
+d = "manhattan"
+batch_size = [ 1, 1,]
+backend = "numpy"
+
+[knn_5_bb_torch_cpu]
+k = 5
+d = "manhattan"
+batch_size = [ 256, 1024,]
+backend = "torch_cpu"
+
+[knn_5_fb_torch_cpu]
+k = 5
+d = "manhattan"
+batch_size = [ 1000, 64,]
+backend = "torch_cpu"
+
+[knn_5_bf_torch_cpu]
+k = 5
+d = "manhattan"
+batch_size = [ 16, 5000,]
+backend = "torch_cpu"
+
+[knn_5_pf_torch_cpu]
+k = 5
+d = "manhattan"
+batch_size = [ 1000, 1,]
+backend = "torch_cpu"
+
+[knn_5_fp_torch_cpu]
+k = 5
+d = "manhattan"
+batch_size = [ 1, 5000,]
+backend = "torch_cpu"
+
+[knn_5_ff_torch_cpu]
+k = 5
+d = "manhattan"
+batch_size = [ 1, 1,]
+backend = "torch_cpu"
+
+[knn_5_bb_torch]
+k = 5
+d = "manhattan"
+batch_size = [ 256, 1024,]
+backend = "torch"
+
+[knn_5_fb_torch]
+k = 5
+d = "manhattan"
+batch_size = [ 1000, 64,]
+backend = "torch"
+
+[knn_5_bf_torch]
+k = 5
+d = "manhattan"
+batch_size = [ 16, 5000,]
+backend = "torch"
+
+[knn_5_fp_torch]
+k = 5
+d = "manhattan"
+batch_size = [ 1, 5000,]
+backend = "torch"
+
+[knn_5_pf_torch]
+k = 5
+d = "manhattan"
+batch_size = [ 1000, 1,]
+backend = "torch"
+
+[knn_5_ff_torch]
+k = 5
+d = "manhattan"
+batch_size = [ 1, 1,]
+backend = "torch"

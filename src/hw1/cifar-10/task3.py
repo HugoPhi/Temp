@@ -12,7 +12,7 @@ y_test = y_test[:n_test]
 
 clf_dict = {}
 for k in [x for x in range(1, 20)] + [x for x in range(20, 220, 20)]:
-    clf_dict[f'knn_{k}'] = KNNClf(k=k, d='manhattan', batch_size=(128, 1024), backend='torch')
+    clf_dict[f'knn_{k}'] = KNNClf(k=k, d='manhattan', batch_size=(1000, 1), backend='torch')
 
 exc = KFlodExcuter(
     X_train=X_train, X_test=X_test, y_train=y_train, y_test=y_test,
@@ -20,7 +20,7 @@ exc = KFlodExcuter(
     k=5,
     clf_dict=clf_dict,
     log=True,
-    log_dir='./task2/'
+    log_dir='./task3/'
 )
 
 exc.run_all()

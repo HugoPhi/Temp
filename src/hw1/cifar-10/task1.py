@@ -14,8 +14,8 @@ y_test = y_test[:n_test]
 clf_dict = {}
 k = 5
 
-clf_dict[f'knn_{k}_1x_torch-cpu'] = KNNClf(k=k, d='manhattan', batch_size=(10000, 1), backend='torch_cpu')
-clf_dict[f'knn_{k}_1x_torch-gpu'] = KNNClf(k=k, d='manhattan', batch_size=(10000, 1), backend='torch')
+clf_dict[f'knn_{k}_pf_torch-cpu'] = KNNClf(k=k, d='manhattan', batch_size=(n_test, 1), backend='torch_cpu')
+clf_dict[f'knn_{k}_pf_torch-gpu'] = KNNClf(k=k, d='manhattan', batch_size=(n_test, 1), backend='torch')
 clf_dict['knn_sklearn'] = SklearnKNNClf(n_neighbors=k, metric='manhattan', algorithm='brute')
 
 
