@@ -1,5 +1,3 @@
-import numpy as np
-import matplotlib.pyplot as plt
 import torch
 import torchvision
 import torchvision.transforms as transforms
