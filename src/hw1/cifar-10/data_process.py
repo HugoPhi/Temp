@@ -1,26 +1,61 @@
-import tensorflow as tf
 import numpy as np
-
-# 加载CIFAR-10数据集 -> np.ndarray
-(X_train, y_train), (X_test, y_test) = tf.keras.datasets.cifar10.load_data()
-
-sed = np.random.randint(0, 1000)
-print(f'seed is {sed}')
-np.random.seed(sed)
-
-# 打乱训练集
-shuffle_indices = np.random.permutation(len(X_train))
-X_train = X_train[shuffle_indices] / 255.0
-y_train = y_train[shuffle_indices]
-
-# 打乱测试集
-shuffle_indices_test = np.random.permutation(len(X_test))
-X_test = X_test[shuffle_indices_test] / 255.0
-y_test = y_test[shuffle_indices_test]
+import matplotlib.pyplot as plt
+import torch
+import torchvision
+import torchvision.transforms as transforms
 
 
-X_train = X_train.reshape(X_train.shape[0], -1)[:, :]
-y_train = y_train[:]
-X_test = X_test.reshape(X_test.shape[0], -1)
-X_test = X_test.reshape(X_test.shape[0], -1)[:100, :]
-y_test = y_test[:100]
+class2name = [
+    'airplane',  # 0
+    'automobile',  # 1
+    'bird',  # 2
+    'cat',  # 3
+    'deer',  # 4
+    'dog',  # 5
+    'frog',  # 6
+    'horse',  # 7
+    'ship',  # 8
+    'truck'  # 9
+]
+
+
+# 定义数据预处理：将图像转为Tensor，并进行归一化处理
+transform = transforms.Compose([
+    transforms.ToTensor(),  # 将图像转为 Tensor
+    transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))  # 对图像进行归一化
+])
+
+trainset = torchvision.datasets.CIFAR10(root='./data', train=True, download=True, transform=transform)
+testset = torchvision.datasets.CIFAR10(root='./data', train=False, download=True, transform=transform)
+
+# 使用 DataLoader 来批量加载训练数据和测试数据
+trainloader = torch.utils.data.DataLoader(trainset, batch_size=50000, shuffle=True)
+testloader = torch.utils.data.DataLoader(testset, batch_size=10000, shuffle=True)
+
+
+train_data_iter = iter(trainloader)
+train_images, train_labels = next(train_data_iter)
+X_train = train_images.cpu().numpy()
+y_train = train_labels.cpu().numpy()
+
+test_data_iter = iter(testloader)
+test_images, test_labels = next(test_data_iter)
+X_test = test_images.cpu().numpy()
+y_test = test_labels.cpu().numpy()
+
+
+# 查看数据形状
+if True:
+    print(f"Train images shape: {X_train.shape}")  # (50000, 3, 32, 32)
+    print(f"Train labels shape: {y_train.shape}")  # (50000,)
+    print(f"Test images shape: {X_test.shape}")    # (10000, 3, 32, 32)
+    print(f"Test labels shape: {y_test.shape}")    # (10000,)
+
+X_train = X_train.reshape(50000, -1)
+X_test = X_test.reshape(10000, -1)
+
+if False:
+    print(f"Train images shape after flatten: {X_train.shape}")  # (50000, 3072)
+    print(f"Train labels shape after flatten: {y_train.shape}")  # (50000,)
+    print(f"Test images shape after flatten: {X_test.shape}")    # (10000, 3072)
+    print(f"Test labels shape after flatten: {y_test.shape}")    # (10000,)

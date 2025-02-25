@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+import inspect
 from typing import Tuple, Dict
 from numpy.typing import NDArray
 
@@ -10,13 +11,39 @@ class Clfs(ABC):
     - fit(self, X_train, y_train, load=Flase): 训练分类器
     - predict(self, x_test): 返回x_test的预测值
     - predict_proba(self, x_test): 返回x_test的预测概率矩阵
-    - get_params(self): 返回超两个超参数字典：hyper和model，用于复刻实验
+    - get_params(self): 返回超参数字典，用于复刻实验
     - get_training_time(self): 获取训练时间，如果load=False
     - get_testing_time(self): 获取测试时间
 
+    Notes
+    -----
     1. 这样的接口设计可以使得学习器的训练和学习过程有一个同一的API，便于不同框架下模型的对比
     2. 这套接口让'预测器'和将要使用的数据集分割开；让预测器和模型的具体架构分割开
     '''
+
+    def __new__(cls, *args, **kwargs):
+        '''
+        这个方法会在子类初始化的时候被调用，可以把子类的所有参数放入到params字典里面。
+        '''
+        instance = super().__new__(cls)
+        original_init = cls.__init__
+        sig = inspect.signature(original_init)
+        bound_args = sig.bind(instance, *args, **kwargs)
+        bound_args.apply_defaults()
+        bound_args.arguments.pop('self', None)
+
+        instance.params = {}
+
+        def merge_params(params_dict, arguments):
+            for key, value in arguments.items():
+                if isinstance(value, dict):
+                    merge_params(params_dict, value)
+                else:
+                    params_dict[key] = value
+
+        merge_params(instance.params, bound_args.arguments)
+
+        return instance
 
     @abstractmethod
     def __init__(self):
@@ -75,24 +102,21 @@ class Clfs(ABC):
 
         pass
 
-    @abstractmethod
     def get_params(self) -> Tuple[Dict]:
         '''
-        获取超参数和模型参数。
+        获取超参数。
 
         Notes
         -----
-          - 返回hyper和model两个字典，分别表示超参数和模型的__init__()所需要的参数。用于编写日志复刻模型。
+          - 返回self.params，就是__init__()所需要的参数。用于编写日志复刻模型。
 
         Returns
         -------
-        hyper : dict
-            当前类的__init__的除开model的参数
-        model : dict
-            model参数对应的实例的初始化参数
+        self.params : dict
+            当前类的__init__的所有参数
         '''
 
-        pass
+        return self.params
 
     @abstractmethod
     def get_training_time(self):

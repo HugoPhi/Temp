@@ -1,0 +1,173 @@
+[knn_1]
+k = 1
+d = "manhattan"
+batch_size = [ 512, 2048,]
+backend = "torch"
+
+[knn_2]
+k = 2
+d = "manhattan"
+batch_size = [ 512, 2048,]
+backend = "torch"
+
+[knn_3]
+k = 3
+d = "manhattan"
+batch_size = [ 512, 2048,]
+backend = "torch"
+
+[knn_4]
+k = 4
+d = "manhattan"
+batch_size = [ 512, 2048,]
+backend = "torch"
+
+[knn_5]
+k = 5
+d = "manhattan"
+batch_size = [ 512, 2048,]
+backend = "torch"
+
+[knn_6]
+k = 6
+d = "manhattan"
+batch_size = [ 512, 2048,]
+backend = "torch"
+
+[knn_7]
+k = 7
+d = "manhattan"
+batch_size = [ 512, 2048,]
+backend = "torch"
+
+[knn_8]
+k = 8
+d = "manhattan"
+batch_size = [ 512, 2048,]
+backend = "torch"
+
+[knn_9]
+k = 9
+d = "manhattan"
+batch_size = [ 512, 2048,]
+backend = "torch"
+
+[knn_10]
+k = 10
+d = "manhattan"
+batch_size = [ 512, 2048,]
+backend = "torch"
+
+[knn_11]
+k = 11
+d = "manhattan"
+batch_size = [ 512, 2048,]
+backend = "torch"
+
+[knn_12]
+k = 12
+d = "manhattan"
+batch_size = [ 512, 2048,]
+backend = "torch"
+
+[knn_13]
+k = 13
+d = "manhattan"
+batch_size = [ 512, 2048,]
+backend = "torch"
+
+[knn_14]
+k = 14
+d = "manhattan"
+batch_size = [ 512, 2048,]
+backend = "torch"
+
+[knn_15]
+k = 15
+d = "manhattan"
+batch_size = [ 512, 2048,]
+backend = "torch"
+
+[knn_16]
+k = 16
+d = "manhattan"
+batch_size = [ 512, 2048,]
+backend = "torch"
+
+[knn_17]
+k = 17
+d = "manhattan"
+batch_size = [ 512, 2048,]
+backend = "torch"
+
+[knn_18]
+k = 18
+d = "manhattan"
+batch_size = [ 512, 2048,]
+backend = "torch"
+
+[knn_19]
+k = 19
+d = "manhattan"
+batch_size = [ 512, 2048,]
+backend = "torch"
+
+[knn_20]
+k = 20
+d = "manhattan"
+batch_size = [ 512, 2048,]
+backend = "torch"
+
+[knn_40]
+k = 40
+d = "manhattan"
+batch_size = [ 512, 2048,]
+backend = "torch"
+
+[knn_60]
+k = 60
+d = "manhattan"
+batch_size = [ 512, 2048,]
+backend = "torch"
+
+[knn_80]
+k = 80
+d = "manhattan"
+batch_size = [ 512, 2048,]
+backend = "torch"
+
+[knn_100]
+k = 100
+d = "manhattan"
+batch_size = [ 512, 2048,]
+backend = "torch"
+
+[knn_120]
+k = 120
+d = "manhattan"
+batch_size = [ 512, 2048,]
+backend = "torch"
+
+[knn_140]
+k = 140
+d = "manhattan"
+batch_size = [ 512, 2048,]
+backend = "torch"
+
+[knn_160]
+k = 160
+d = "manhattan"
+batch_size = [ 512, 2048,]
+backend = "torch"
+
+[knn_180]
+k = 180
+d = "manhattan"
+batch_size = [ 512, 2048,]
+backend = "torch"
+
+[knn_200]
+k = 200
+d = "manhattan"
+batch_size = [ 512, 2048,]
+backend = "torch"

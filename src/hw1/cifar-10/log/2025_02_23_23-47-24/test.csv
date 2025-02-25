@@ -1,2 +1,0 @@
-model,accuracy,avg_recall,training time,testing time
-knn_1,0.283,0.2887612779268466,0.00011229515075683594,0.41941046714782715
