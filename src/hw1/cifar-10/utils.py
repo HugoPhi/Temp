@@ -41,4 +41,5 @@ def display_images(images, labels, rows=1, cols=1):  # by OpenAI ChatGPT-4o
 
     plt.suptitle("K nearest neighbors for CIFAR-10")  # 使用suptitle代替title，避免影响单个子图
     plt.tight_layout()  # 自动调整子图参数，为总标题留出空间
-    plt.show()
+    plt.savefig(f'./task4/k={col}.png')
+    # plt.show()
