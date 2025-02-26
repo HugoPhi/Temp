@@ -1,4 +1,4 @@
-from plugins.executer import Excuter
+from plugins.executer import Executer
 
 from knn import KNNClf, SklearnKNNClf
 from data_process import X_train, X_test, y_test, y_train
@@ -16,7 +16,7 @@ k = 5
 
 clf_dict[f'knn_{k}_sklearn'] = SklearnKNNClf(n_neighbors=k, metric='manhattan', algorithm='brute')
 
-# f -> for loop; b -> batch parallel; p -> parallel. 
+# f -> for loop; b -> batch parallel; p -> parallel.
 clf_dict[f'knn_{k}_bb_numpy'] = KNNClf(k=k, d='manhattan', batch_size=(256, 1024), backend='numpy')
 clf_dict[f'knn_{k}_fb_numpy'] = KNNClf(k=k, d='manhattan', batch_size=(n_test, 64), backend='numpy')
 clf_dict[f'knn_{k}_bf_numpy'] = KNNClf(k=k, d='manhattan', batch_size=(16, n_train), backend='numpy')
@@ -38,7 +38,7 @@ clf_dict[f'knn_{k}_fp_torch'] = KNNClf(k=k, d='manhattan', batch_size=(1, n_trai
 clf_dict[f'knn_{k}_pf_torch'] = KNNClf(k=k, d='manhattan', batch_size=(n_test, 1), backend='torch')
 clf_dict[f'knn_{k}_ff_torch'] = KNNClf(k=k, d='manhattan', batch_size=(1, 1), backend='torch')
 
-exc = Excuter(
+exc = Executer(
     X_train, y_train, X_test, y_test,
     metric_list=['accuracy', 'avg_recall'],
     clf_dict=clf_dict,

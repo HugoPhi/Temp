@@ -1,4 +1,4 @@
-from plugins.executer import KFlodExcuter
+from plugins.executer import KFlodCrossExecuter
 
 from knn import KNNClf
 from data_process import X_train, X_test, y_test, y_train
@@ -14,7 +14,7 @@ clf_dict = {}
 for k in [x for x in range(1, 20)] + [x for x in range(20, 220, 20)]:
     clf_dict[f'knn_{k}'] = KNNClf(k=k, d='manhattan', batch_size=(1000, 1), backend='torch')
 
-exc = KFlodExcuter(
+exc = KFlodCrossExecuter(
     X_train=X_train, X_test=X_test, y_train=y_train, y_test=y_test,
     metric_list=['accuracy', 'avg_recall'],
     k=5,
