@@ -1,4 +1,6 @@
-# chapter 2: Classifiers
+# Homework 1: C2, C3
+
+## chapter 2: Classifiers
 
 - knn
     - What is Classifier?
@@ -21,3 +23,7 @@
         - L1.
         - L2.
         - Elastic net(L1 + L2).
+
+## chapter 3: Optimazation
+
+- Gradient Descent
